@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration packages="com.newrelic.logging.log4j2">
+    <Properties>
+        <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level - [%c{1}] - (%F\:%L) - %msg%n" />
+    </Properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+        <RollingFile name="FileAppender" fileName="logs/synology-filestation.log"
+                     filePattern="logs/synology-filestation-%d{yyyy-MM-dd}-%i.log" append="false">
+            <!-- <JsonLayout compact="true" locationInfo="true" complete="false" eventEol="true" /> -->
+            <!-- <PatternLayout> <Pattern>${LOG_PATTERN}</Pattern> </PatternLayout> -->
+            <NewRelicLayout/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" />
+                <SizeBasedTriggeringPolicy size="10MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="3"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="FileAppender" />
+        </Root>
+    </Loggers>
+</Configuration>

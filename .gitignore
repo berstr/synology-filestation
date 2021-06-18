@@ -1,0 +1,12 @@
+*.log
+.DS_Store
+target
+newrelic/logs
+.idea
+logs
+logs-docker
+filestation.iml
+HELP.md
+mvnw
+mvnw.cmd
+
