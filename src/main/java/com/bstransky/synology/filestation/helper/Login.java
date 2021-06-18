@@ -99,7 +99,7 @@ public class Login {
         long currentTime = new Date().getTime();
         Login.loginCredentials.addProperty("time", currentTime);
 
-        logger.info("login() -- loginCredentials - {}", loginCredentials.toString());
+        logger.info("login() -- loginCredentials - time: {} - sid: {}...",loginCredentials.get("time").getAsLong(), loginCredentials.get("sid").getAsString().substring(0,20));
 
         logger.info("login() -- response - {}", result.toString());
 
