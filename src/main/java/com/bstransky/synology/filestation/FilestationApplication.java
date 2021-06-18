@@ -22,7 +22,7 @@ public class FilestationApplication {
 	public static void main(String[] args) {
 		logger.info("Startup - main() ...");
 
-		int sleep_time = 5;
+		int sleep_time = 2;
 
 		do {
 			try {
@@ -37,14 +37,17 @@ public class FilestationApplication {
 				logger.error("Startup - Login error: {}", err.toString());
 			}
 			try {
-				sleep_time = sleep_time * 2;
+				if (sleep_time < 60) {
+					sleep_time = sleep_time * 2;
+				}
 				logger.info("Startup - sleep for {} seconds ...",sleep_time);
-				TimeUnit.SECONDS.sleep(sleep_time);
+				Thread.sleep(sleep_time * 1000);
+				// TimeUnit.SECONDS.sleep(sleep_time);
 			} catch (InterruptedException ie) {
 				logger.info("Startup - INTERRUPTED - sleep for {} seconds ... excption: {}",sleep_time, ie.toString());
 				Thread.currentThread().interrupt();
 			}
-		} while (false);
+		} while (true);
 
 		SpringApplication app = new SpringApplication(FilestationApplication.class);
 		app.setDefaultProperties(Collections.singletonMap("server.port", "37081"));
