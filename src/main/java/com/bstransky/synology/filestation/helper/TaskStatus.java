@@ -61,7 +61,7 @@ public class TaskStatus {
 
         JsonObject result = new JsonObject();
 
-        logger.info("task_status_request() -- url: {}", url.toString());
+        logger.info("task_status_request() -- url: {}", url.toString().substring(0,url.toString().length()-40));
 
         OkHttpClient client = new OkHttpClient();
 
@@ -115,7 +115,7 @@ public class TaskStatus {
     }
 
     // api_call:    "SYNO.FileStation.CopyMove"
-    public static JsonObject task_status(String sid, String taskid,  String api_call, Integer wait, Integer retries) throws IOException {
+    public static JsonObject task_status(String sid, String taskid,  String api_call, String status_api_version,  Integer wait, Integer retries) throws IOException {
 
         JsonObject result = new JsonObject();
 
@@ -127,7 +127,7 @@ public class TaskStatus {
 
         HttpUrl url = HttpUrl.parse("http://" + hostname + ":5000/webapi/entry.cgi")
                 .newBuilder().addQueryParameter("api", api_call)
-                .addQueryParameter("version", "3")
+                .addQueryParameter("version", status_api_version)
                 .addQueryParameter("method", "status")
                 .addQueryParameter("taskid",  String.format("\"%s\"",taskid))
                 .addQueryParameter("_sid", sid).build();

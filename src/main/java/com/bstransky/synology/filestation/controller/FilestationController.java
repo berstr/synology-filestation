@@ -2,10 +2,10 @@ package com.bstransky.synology.filestation.controller;
 
 import com.bstransky.synology.filestation.helper.*;
 
-import com.google.gson.JsonArray;
+//import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import okhttp3.*;
+//import com.google.gson.JsonParser;
+//import okhttp3.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,6 +39,22 @@ public class FilestationController {
         result = FileMove.file_move(Login.getSid(),source,destination,overwrite_, wait);
 
         logger.info("GET /file/move -- filestation response - {}", result.toString());
+
+        return result.toString();
+    }
+
+    @GetMapping({"/file/delete"})
+    public String file_delete(@RequestParam String source) throws IOException {
+
+        JsonObject result = new JsonObject();
+
+        logger.info("GET /file/delete");
+        logger.info("GET /file/delete - source: {}", source);
+        Integer wait = 1; // number of seconds to sleep before checking the corresponding synology move task
+
+        result = FileDelete.file_delete(Login.getSid(),source, wait);
+
+        logger.info("GET /file/delete -- filestation response - {}", result.toString());
 
         return result.toString();
     }
