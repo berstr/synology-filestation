@@ -73,6 +73,20 @@ public class FilestationController {
         return result.toString();
     }
 
+    @GetMapping({"/file/rename"})
+    public String file_info(@RequestParam String path, @RequestParam String name) throws IOException {
+
+        JsonObject result = null;
+
+        logger.info("GET /file/rename - path: {} - name: {}", path,name);
+
+        result = FileRename.file_rename(Login.getSid(),path,name);
+
+        logger.info("GET /file/rename -- response - {}", result.toString());
+
+        return result.toString();
+    }
+
 
     @GetMapping({"/folder/list"})
     public String list(@RequestParam String path) throws IOException {

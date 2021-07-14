@@ -39,7 +39,7 @@ public class Login {
 
         final String username = System.getenv("SYNOLOGY_USERNAME");
         final String password = System.getenv("SYNOLOGY_PASSWORD");
-        String hostname = System.getenv("SYNOLOGY_HOST");
+        final String hostname = System.getenv("SYNOLOGY_HOST");
 
         if (username == null) {
             result.addProperty("result", "synology username is not defined");
@@ -51,9 +51,10 @@ public class Login {
             logger.info("login() -- response - {}", result.toString());
             return result;
         }
-
-        if (hostname == null) {
-            hostname = "localhost";
+        if (hostname == null ) {
+            result.addProperty("result", "synology host is not defined");
+            logger.info("login() -- response - {}", result.toString());
+            return result;
         }
 
             HttpUrl url = HttpUrl.parse("http://" + hostname + ":5000/webapi/auth.cgi").newBuilder()

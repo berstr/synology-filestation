@@ -119,9 +119,11 @@ public class TaskStatus {
 
         JsonObject result = new JsonObject();
 
-        String hostname = System.getenv("SYNOLOGY_HOST");
-        if (hostname == null) {
-            hostname = "localhost";
+        final String hostname = System.getenv("SYNOLOGY_HOST");
+        if (hostname == null ) {
+            result.addProperty("result", "synology host is not defined");
+            logger.info("task_status() -- response - {}", result.toString());
+            return result;
         }
         logger.info("task_status() - taskid: [{}] - api_call: [{}]", taskid, api_call);
 

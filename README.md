@@ -1,15 +1,16 @@
-make sure you have build the package with the latest file versions (also the react assets like bundle, index, etc.):
 
 Set the following env variables:
 
     export NEW_RELIC_LICENSE_KEY=XXXX
+    export NEW_RELIC_DISTRIBUTED_TRACING_ENABLED=true;
+    export NEW_RELIC_APP_NAME=XXXX
     export SYNOLOGY_USERNAME=XXXX
-    export SYNOLOGY_PASSWORD='XXX'
-
-Optional (if not set, localhost is used):
-
+    export SYNOLOGY_PASSWORD='XXXX'
     export SYNOLOGY_HOST=<hostname>
-    The port number is 37081
+
+------------------------------------
+
+    The default port number of this service is 37081
 
 -------------------------------------
 

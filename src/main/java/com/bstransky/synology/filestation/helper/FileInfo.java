@@ -19,9 +19,11 @@ public class FileInfo {
 
         JsonObject result = new JsonObject();
 
-        String hostname = System.getenv("SYNOLOGY_HOST");
-        if (hostname == null) {
-            hostname = "localhost";
+        final String hostname = System.getenv("SYNOLOGY_HOST");
+        if (hostname == null ) {
+            result.addProperty("result", "synology host is not defined");
+            logger.info("file_info() -- response - {}", result.toString());
+            return result;
         }
 
         // GET /webapi/entry.cgi?api=SYNO.FileStation.List&version=2&method=getinfo&additional=["real_path", "size,owner","time,perm,"type"]&path=["/video/1","/video/2.txt"]

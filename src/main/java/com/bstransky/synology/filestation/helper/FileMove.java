@@ -22,9 +22,11 @@ public class FileMove {
 
         Boolean remove_src = Boolean.TRUE;
 
-        String hostname = System.getenv("SYNOLOGY_HOST");
-        if (hostname == null) {
-            hostname = "localhost";
+        final String hostname = System.getenv("SYNOLOGY_HOST");
+        if (hostname == null ) {
+            result.addProperty("result", "synology host is not defined");
+            logger.info("file_move() -- response - {}", result.toString());
+            return result;
         }
 
         HttpUrl url = HttpUrl.parse("http://" + hostname + ":5000/webapi/entry.cgi")

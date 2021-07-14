@@ -18,9 +18,11 @@ public class FolderList {
 
         JsonObject result = new JsonObject();
 
-        String hostname = System.getenv("SYNOLOGY_HOST");
-        if (hostname == null) {
-            hostname = "localhost";
+        final String hostname = System.getenv("SYNOLOGY_HOST");
+        if (hostname == null ) {
+            result.addProperty("result", "synology host is not defined");
+            logger.info("folder_list() -- response - {}", result.toString());
+            return result;
         }
 
         HttpUrl url = HttpUrl.parse("http://" + hostname + ":5000/webapi/entry.cgi").newBuilder()

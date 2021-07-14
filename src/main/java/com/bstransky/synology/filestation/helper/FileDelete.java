@@ -19,9 +19,11 @@ public class FileDelete {
         JsonObject result = new JsonObject();
         String api_call = "SYNO.FileStation.Delete";
 
-        String hostname = System.getenv("SYNOLOGY_HOST");
-        if (hostname == null) {
-            hostname = "localhost";
+        final String hostname = System.getenv("SYNOLOGY_HOST");
+        if (hostname == null ) {
+            result.addProperty("result", "synology host is not defined");
+            logger.info("file_delete() -- response - {}", result.toString());
+            return result;
         }
 
         HttpUrl url = HttpUrl.parse("http://" + hostname + ":5000/webapi/entry.cgi")
