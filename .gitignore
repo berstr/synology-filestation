@@ -9,4 +9,8 @@ filestation.iml
 HELP.md
 mvnw
 mvnw.cmd
+.classpath
+.factorypath
+.project
+.settings
 

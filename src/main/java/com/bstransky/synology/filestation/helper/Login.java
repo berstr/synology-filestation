@@ -19,18 +19,57 @@ public class Login {
 
     public static String getSid() throws IOException {
         String result = null;
-        long time = Login.loginCredentials.get("time").getAsLong();
-        long currentTime = new Date().getTime();
-        long login_sid_age = ((currentTime - time)/1000/60);
-        if (login_sid_age > Login.LoginRefresh) {
-            logger.info("getSid() - refresh synology login - current sid age in minutes: {}",login_sid_age);
-            Login.login();
+        if (Login.loginCredentials == null) {
+            logger.info("getSid() - login ID is null - refresh synology login");
+            Login.login(2);
+        }
+        else {
+            long time = Login.loginCredentials.get("time").getAsLong();
+            long currentTime = new Date().getTime();
+            long login_sid_age = ((currentTime - time) / 1000 / 60);
+            if (login_sid_age > Login.LoginRefresh) {
+                logger.info("getSid() - refresh synology login - current sid age in minutes: {}", login_sid_age);
+                Login.login(2);
+            }
         }
         result = Login.loginCredentials.get("sid").getAsString();
         return result;
     }
 
-    public static JsonObject login() throws IOException {
+    public static JsonObject login(int sleep_time)  {
+        JsonObject result = null;
+        do {
+            try {
+                result = Login.login_synology();
+                if (result.get("result").getAsString().equals("ok")) {
+                    logger.info("Login.login() - Login success - response: {}...", result.get("result").toString());
+                    break;
+                } else {
+                    logger.error("Login.login() - Login failure - response: {}", result.get("result").toString());
+                }
+            } catch (IOException err) {
+                logger.error("Login.login() - Login error: {}", err.toString());
+            }
+            try {
+                if (sleep_time < 60) {
+                    sleep_time = sleep_time * 2;
+                }
+                logger.info("Login.login() - sleep for {} seconds ...", sleep_time);
+                Thread.sleep(sleep_time * 1000);
+                // TimeUnit.SECONDS.sleep(sleep_time);
+            } catch (InterruptedException ie) {
+                logger.info("Login.login() - INTERRUPTED - sleep for {} seconds ... excption: {}", sleep_time, ie.toString());
+                //Thread.currentThread().interrupt();
+            }
+        } while (true);
+
+        result = Login.loginCredentials;
+        return result;
+    }
+
+
+
+    private static JsonObject login_synology() throws IOException {
 
         JsonObject result = new JsonObject();
         Login.loginCredentials = new JsonObject();

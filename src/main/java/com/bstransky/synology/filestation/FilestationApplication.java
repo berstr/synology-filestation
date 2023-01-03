@@ -24,6 +24,13 @@ public class FilestationApplication {
 
 		int sleep_time = 2;
 
+		logger.info("Startup - login into Synology ...");
+		JsonObject result = Login.login(sleep_time);
+		logger.info("Startup - logged into Synology - result: {}...",result.toString().substring(0,40));
+
+		/*
+		int sleep_time = 2;
+
 		do {
 			try {
 				JsonObject result = Login.login();
@@ -48,6 +55,7 @@ public class FilestationApplication {
 				Thread.currentThread().interrupt();
 			}
 		} while (true);
+		*/
 
 		SpringApplication app = new SpringApplication(FilestationApplication.class);
 		app.setDefaultProperties(Collections.singletonMap("server.port", "37081"));

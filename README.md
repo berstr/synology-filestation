@@ -4,9 +4,15 @@ Set the following env variables:
     export NEW_RELIC_LICENSE_KEY=XXXX
     export NEW_RELIC_DISTRIBUTED_TRACING_ENABLED=true;
     export NEW_RELIC_APP_NAME=XXXX
+    export NEW_RELIC_APPLICATION_LOGGING_ENABLED=true
+    export NEW_RELIC_APPLICATION_LOGGING_FORWARDING_ENABLED=true
+    export NEW_RELIC_APPLICATION_LOGGING_FORWARDING_MAX_SAMPLES_STORED=10000
+    export NEW_RELIC_APPLICATION_LOGGING_LOCAL_DECORATING_ENABLED=false
+
     export SYNOLOGY_USERNAME=XXXX
     export SYNOLOGY_PASSWORD='XXXX'
     export SYNOLOGY_HOST=<hostname>
+
 
 ------------------------------------
 
@@ -24,14 +30,13 @@ java  -javaagent:./newrelic/newrelic.jar -jar target/filestation-0.0.1-SNAPSHOT.
 
 Docker
 
-docker build -t berndstransky/synology-filestation:1.0 .
+Build and deploy container image:
 
-docker push berndstransky/synology-filestation:1.0
+docker build -t bstransky/synology-filestation:X.Y .
 
-X.Y is the image tag
+docker push bstransky/synology-filestation:X.Y
 
-on VM:
-docker run -d --name synology-filestation -e SYNOLOGY_USERNAME -e SYNOLOGY_PASSWORD -e SYNOLOGY_HOST -e NEW_RELIC_LICENSE_KEY -e NEW_RELIC_DISTRIBUTED_TRACING_ENABLED -e NEW_RELIC_APP_NAME -v /var/log/container:/logs -p37081:37081 berndstransky/synology-filestation:X.Y
 
-on Macbook:
-docker run -d -e SYNOLOGY_USERNAME -e SYNOLOGY_PASSWORD -e SYNOLOGY_HOST -e NEW_RELIC_LICENSE_KEY -e NEW_RELIC_DISTRIBUTED_TRACING_ENABLED -e NEW_RELIC_APP_NAME -v $(pwd)/logs-docker:/logs -p37081:37081 berndstransky/synology-filestation:X.Y
+Start container: 
+
+docker run -d --name synology-filestation -e SYNOLOGY_USERNAME -e SYNOLOGY_PASSWORD -e SYNOLOGY_HOST -e NEW_RELIC_LICENSE_KEY -e NEW_RELIC_DISTRIBUTED_TRACING_ENABLED -e NEW_RELIC_APP_NAME -e NEW_RELIC_APPLICATION_LOGGING_ENABLED -e NEW_RELIC_APPLICATION_LOGGING_FORWARDING_ENABLED -e NEW_RELIC_APPLICATION_LOGGING_FORWARDING_MAX_SAMPLES_STORED -e NEW_RELIC_APPLICATION_LOGGING_LOCAL_DECORATING_ENABLED  -p37081:37081 bstransky/synology-filestation:X.Y

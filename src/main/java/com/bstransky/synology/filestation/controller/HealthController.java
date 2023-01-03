@@ -30,6 +30,7 @@ public class HealthController {
         JsonObject result = new JsonObject();
 
         result.addProperty("result", "ok");
+        result.addProperty("service", "synology filestation");
 
 
         logger.info("GET /health - response: {}", result.toString());

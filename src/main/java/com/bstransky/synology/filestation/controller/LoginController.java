@@ -24,7 +24,7 @@ public class LoginController {
 
         JsonObject result = null;
 
-        result = Login.login();
+        result = Login.login(2);
 
         logger.info("GET /login -- filestation response - {}", result.toString());
 
